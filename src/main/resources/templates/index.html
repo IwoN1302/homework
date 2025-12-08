@@ -4,13 +4,23 @@
 
 
 
-<div layout:fragment="content" class="container my-3">
-    <div>
-        <div class="text-center">
-            <img th:src="@{/images/company.jpg}" alt="배경 이미지" class="img-fluid" style="height: 1080px; width: 1920px;">
+<div layout:fragment="content" class="container-fluid p-0">
+    <div class="position-relative text-center text-white">
+        <img th:src="@{/images/company.jpg}" alt="Future Modulation" class="img-fluid w-100"
+            style="object-fit: cover; height: 80vh; filter: brightness(0.6);">
+        <div class="position-absolute top-50 start-50 translate-middle">
+            <h1 class="display-1 fw-bold text-uppercase"
+                style="letter-spacing: 0.01em; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Future Modulation</h1>
+            <p class="lead fs-2 mb-4" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">Innovate Your Career Path</p>
+            <a th:href="@{/resume/list}" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill fw-bold">Explore
+                Resumes</a>
         </div>
     </div>
 
+    <div class="container my-5 py-5 text-center">
+        <h2 class="mb-4 fw-bold">Welcome to the Future</h2>
+        <p class="text-muted fs-5">We connect talent with opportunity. Start your journey today.</p>
+    </div>
 </div>
 
 </html>
