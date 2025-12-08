@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <title>기태의 SBB</title>
+    <script src="http://localhost:35729/livereload.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <th:block layout:fragment="css"></th:block>
+</head>
+<body>
+    <div th:replace="~{fragments/header::header}"></div>
+
+    <th:block layout:fragment="content" class="content"></th:block>
+
+    <div th:replace="~{fragments/footer::footer}"></div>
+
+    <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <th:block layout:fragment="script"></th:block>
+</body>
+</html>
