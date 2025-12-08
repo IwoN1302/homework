@@ -13,7 +13,7 @@ import lombok.*;
 @Builder
 public class MemberDto {
     @NotEmpty(message = "사용자 ID는 필수 항목 입니다.")
-    @Size(min = 3, max=30, message = "사용자 ID는 3~30자 사이여야 합니다.")
+    @Size(min = 3, max = 30, message = "사용자 ID는 3~30자 사이여야 합니다.")
     private String username; // 사용자 ID
 
     @NotEmpty(message = "비밀번호는 필수 항목 입니다.")

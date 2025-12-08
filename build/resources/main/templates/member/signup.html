@@ -1,8 +1,6 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/layout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/layout}">
 
 <th:block layout:fragment="css">
     <style>
@@ -14,7 +12,9 @@
 
 <div layout:fragment="content" class="container my-3">
     <div class="my-3 border-bottom">
-        <div><h4>회원가입</h4></div>
+        <div>
+            <h4>회원가입</h4>
+        </div>
     </div>
 
     <form th:action="@{/member/signup}" th:object="${memberDto}" method="post">
@@ -74,7 +74,7 @@
         <div class="mb-3 form-check">
             <input class="form-check-input" type="checkbox" th:field="*{active}" id="active">
             <label class="form-check-label" for="active">
-                (필수) 현재 학기 등록 여부 확인.
+                (필수) 개인정보 수집 및 이용에 동의합니다.
             </label>
             <p th:if="${#fields.hasErrors('active')}" th:errors="*{active}" class="fieldError"></p>
         </div>
@@ -84,12 +84,13 @@
 </div>
 <th:block layout:fragment="script">
     <script th:inline="javascript">
-        $(function(){
-            let message = [[${errorMsg}]];
-            if(message != null){
+        $(function () {
+            let message = [[${ errorMsg }]];
+            if (message != null) {
                 alert(message);
             }
         })
     </script>
 </th:block>
+
 </html>

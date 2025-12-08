@@ -22,7 +22,7 @@ public class Member extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
-    private Long id;  // 아이디
+    private Long id; // 아이디
 
     @Column(unique = true, nullable = false, length = 20)
     private String username; // 사용자 ID
