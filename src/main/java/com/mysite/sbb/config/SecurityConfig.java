@@ -24,17 +24,16 @@ public class SecurityConfig {
                 .failureUrl("/member/login/error")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .permitAll()
-        );
+                .permitAll());
         http.logout(Customizer.withDefaults());
 
-//        http.csrf(csrf -> csrf.disable());
+        // http.csrf(csrf -> csrf.disable());
 
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                 .requestMatchers("/").permitAll()
                 .requestMatchers("/member/**").permitAll()
-                .requestMatchers("/question/**").permitAll()
+                .requestMatchers("/resume/**").permitAll()
                 .anyRequest().authenticated());
 
         return http.build();

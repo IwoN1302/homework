@@ -5,9 +5,9 @@ import com.mysite.sbb.answer.entity.Answer;
 import com.mysite.sbb.answer.service.AnswerService;
 import com.mysite.sbb.member.entity.Member;
 import com.mysite.sbb.member.service.MemberService;
-import com.mysite.sbb.question.dto.QuestionDto;
-import com.mysite.sbb.question.entity.Question;
-import com.mysite.sbb.question.service.QuestionService;
+import com.mysite.sbb.resume.dto.ResumeDto;
+import com.mysite.sbb.resume.entity.Resume;
+import com.mysite.sbb.resume.service.ResumeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,53 +27,52 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class AnswerController {
 
-    private final QuestionService questionService;
+    private final ResumeService resumeService;
     private final AnswerService answerService;
     private final MemberService memberService;
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id,
-                         Principal principal ){
+            Principal principal) {
         Answer answer = answerService.getAnswer(id);
 
-        if(!answer.getAuthor().getUsername().equals(principal.getName())){
+        if (!answer.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
         answerService.delete(answer);
 
-        return "redirect:/question/detail/" + answer.getQuestion().getId();
+        return "redirect:/resume/detail/" + answer.getResume().getId();
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
     public String modify(@PathVariable("id") Long id,
-                         @Valid AnswerDto answerDto,
-                         BindingResult bindingResult,
-                         Principal principal){
+            @Valid AnswerDto answerDto,
+            BindingResult bindingResult,
+            Principal principal) {
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "answer/inputForm";
         }
         Answer answer = answerService.getAnswer(id);
 
-        if(!answer.getAuthor().getUsername().equals(principal.getName())){
+        if (!answer.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         answerService.modify(answer, answerDto);
 
-        return "redirect:/question/detail/" + answer.getQuestion().getId();
+        return "redirect:/resume/detail/" + answer.getResume().getId();
     }
-
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
     public String modify(@PathVariable("id") Long id, Model model,
-                         Principal principal ){
+            Principal principal) {
         Answer answer = answerService.getAnswer(id);
 
-        if(!answer.getAuthor().getUsername().equals(principal.getName())){
+        if (!answer.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
@@ -86,16 +85,16 @@ public class AnswerController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create/{id}")
     public String create(@PathVariable("id") Long id,
-                         @RequestParam("content") String content,
-                         Principal principal){
+            @RequestParam("content") String content,
+            Principal principal) {
         log.info("============= id : {}, {}", id, content);
-        Question question = questionService.getQuestion(id);
+        Resume resume = resumeService.getResume(id);
 
         Member member = memberService.getMember(principal.getName());
 
-        answerService.create(question, content, member);
+        answerService.create(resume, content, member);
 
-        return "redirect:/question/detail/" + id;
+        return "redirect:/resume/detail/" + id;
     }
 
 }

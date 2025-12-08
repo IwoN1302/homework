@@ -4,7 +4,7 @@ import com.mysite.sbb.answer.dto.AnswerDto;
 import com.mysite.sbb.answer.entity.Answer;
 import com.mysite.sbb.answer.repository.AnswerRepository;
 import com.mysite.sbb.member.entity.Member;
-import com.mysite.sbb.question.entity.Question;
+import com.mysite.sbb.resume.entity.Resume;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +16,9 @@ public class AnswerService {
 
     private final AnswerRepository answerRepository;
 
-    public void create(Question question, String content, Member member) {
+    public void create(Resume resume, String content, Member member) {
         Answer answer = Answer.builder()
-                .question(question)
+                .resume(resume)
                 .content(content)
                 .author(member)
                 .build();

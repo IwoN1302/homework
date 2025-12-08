@@ -14,15 +14,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr th:each="question, loop : ${paging}">
+            <tr th:each="resume, loop : ${paging}">
                 <td th:text="${paging.totalElements - loop.index - (paging.number * paging.size)}"></td>
                 <td>
-                    <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
-                    <span class="badge bg-primary" th:if="${#lists.size(question.answerList) > 0}"
-                        th:text="${#lists.size(question.answerList)}"></span>
+                    <a th:href="@{|/resume/detail/${resume.id}|}" th:text="${resume.subject}"></a>
+                    <span class="badge bg-primary" th:if="${#lists.size(resume.answerList) > 0}"
+                        th:text="${#lists.size(resume.answerList)}"></span>
                 </td>
-                <td th:text="${question.author.username}"></td>
-                <td th:text="${#temporals.format(question.created, 'yyyy-MM-dd HH:mm:ss')}">날짜1</td>
+                <td th:text="${resume.author.username}"></td>
+                <td th:text="${#temporals.format(resume.created, 'yyyy-MM-dd HH:mm:ss')}">날짜1</td>
             </tr>
         </tbody>
     </table>
@@ -72,11 +72,11 @@
         </th:block>
     </div>
 
-    <form th:action="@{/question/list}" method="get" id="searchForm">
+    <form th:action="@{/resume/list}" method="get" id="searchForm">
         <input type="hidden" id="page" name="page" th:value="${paging.number}">
     </form>
 
-    <a th:href="@{/question/create}" class="btn btn-primary">이력서 등록</a>
+    <a th:href="@{/resume/create}" class="btn btn-primary">이력서 등록</a>
 </div>
 
 <script layout:fragment="script" type="text/javascript">

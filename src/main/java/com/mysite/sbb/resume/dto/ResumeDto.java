@@ -1,4 +1,4 @@
-package com.mysite.sbb.question.dto;
+package com.mysite.sbb.resume.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -10,8 +10,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class QuestionDto {
-    @Size(max=200, message = "제목은 200자 이하로 작성하세요.")
+public class ResumeDto {
+    @Size(max = 200, message = "제목은 200자 이하로 작성하세요.")
     @NotEmpty(message = "제목은 필수 항목 입니다.")
     private String subject;
 
