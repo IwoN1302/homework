@@ -12,6 +12,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.File;
+import java.util.UUID;
+import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,18 +39,72 @@ public class ResumeService {
     }
 
     public void create(ResumeDto resumeDto, Member member) {
+        String profileImage = saveFile(resumeDto.getProfileImageFile());
+
         Resume resume = Resume.builder()
                 .subject(resumeDto.getSubject())
                 .content(resumeDto.getContent())
+                .realName(resumeDto.getRealName())
+                .dob(resumeDto.getDob())
+                .phoneNumber(resumeDto.getPhoneNumber())
+                .email(resumeDto.getEmail())
+                .address(resumeDto.getAddress())
+                .gender(resumeDto.getGender())
+                .desiredSalary(resumeDto.getDesiredSalary())
+                .desiredJob(resumeDto.getDesiredJob())
+                .workDays(resumeDto.getWorkDays())
+                .workHours(resumeDto.getWorkHours())
+                .experience(resumeDto.getExperience())
+                .licenses(resumeDto.getLicenses())
+                .profileImage(profileImage)
                 .author(member)
                 .build();
 
         resumeRepository.save(resume);
     }
 
+    private String saveFile(MultipartFile file) {
+        if (file != null && !file.isEmpty()) {
+            try {
+                String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\uploads";
+                File directory = new File(projectPath);
+                if (!directory.exists()) {
+                    directory.mkdirs();
+                }
+                UUID uuid = UUID.randomUUID();
+                String fileName = uuid + "_" + file.getOriginalFilename();
+                File saveFile = new File(projectPath, fileName);
+                file.transferTo(saveFile);
+                return "/uploads/" + fileName;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return null;
+    }
+
     public void modify(Resume resume, @Valid ResumeDto resumeDto) {
+        String profileImage = saveFile(resumeDto.getProfileImageFile());
+        if (profileImage != null) {
+            resume.setProfileImage(profileImage);
+        }
+
         resume.setSubject(resumeDto.getSubject());
         resume.setContent(resumeDto.getContent());
+        resume.setRealName(resumeDto.getRealName());
+        resume.setDob(resumeDto.getDob());
+        resume.setPhoneNumber(resumeDto.getPhoneNumber());
+        resume.setEmail(resumeDto.getEmail());
+        resume.setAddress(resumeDto.getAddress());
+        resume.setGender(resumeDto.getGender());
+        resume.setDesiredSalary(resumeDto.getDesiredSalary());
+        resume.setDesiredJob(resumeDto.getDesiredJob());
+        resume.setWorkDays(resumeDto.getWorkDays());
+        resume.setWorkHours(resumeDto.getWorkHours());
+        resume.setExperience(resumeDto.getExperience());
+        resume.setLicenses(resumeDto.getLicenses());
+
         resumeRepository.save(resume);
     }
 

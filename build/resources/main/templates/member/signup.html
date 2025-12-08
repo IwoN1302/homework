@@ -85,7 +85,7 @@
 <th:block layout:fragment="script">
     <script th:inline="javascript">
         $(function () {
-            let message = [[${ errorMsg }]];
+            let message = /*[[${errorMsg}]]*/ null;
             if (message != null) {
                 alert(message);
             }

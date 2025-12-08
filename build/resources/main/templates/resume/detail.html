@@ -3,27 +3,117 @@
     xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layouts/layout}">
 
 <div layout:fragment="content" class="container my-3">
-    <h2 class="border-bottom py-2" th:text="${resume.subject}">질문 상세</h2>
-    <div class="card my-3 bg-warning-subtle">
-        <div class="card-body">
-            <div class="card-text" th:text="${resume.content}"></div>
-            <div class="d-flex justify-content-end">
-                <div class="badge bg-danger text-white p-2 text-start mx-3">
-                    <div class="mb-2">
-                        <span th:text="${resume.author.username}"></span>
-                    </div>
-                    <div th:text="${#temporals.format(resume.created, 'yyyy-MM-dd HH:mm')}"></div>
-                </div>
+    <h2 class="text-center my-4 fw-bold text-uppercase" style="letter-spacing: 0.1em;">이 력 서</h2>
+
+    <div class="row mb-5">
+        <!-- Profile Image -->
+        <div class="col-md-3">
+            <div class="border d-flex align-items-center justify-content-center bg-light"
+                style="height: 250px; overflow: hidden;">
+                <img th:if="${resume.profileImage != null}" th:src="@{${resume.profileImage}}" class="img-fluid"
+                    style="max-height: 100%;">
+                <span th:if="${resume.profileImage == null}" class="text-muted">사진 없음</span>
             </div>
-            <!-- 수정 / 삭제 -->
-            <div>
-                <a th:href="@{|/resume/modify/${resume.id}|}" class="btn btn-sm btn-outline-primary"
-                    sec:authorize="isAuthenticated()"
-                    th:if="${#authentication.getPrincipal().getUsername() == resume.author.username}">수정</a>
-                <a href="javascript:void(0);" th:data-uri="@{|/resume/delete/${resume.id}|}"
-                    class="delete btn btn-sm btn-outline-danger" sec:authorize="isAuthenticated()" th:if="${#authentication.getPrincipal().getUsername()
-                                == resume.author.username}">삭제</a>
+        </div>
+
+        <!-- Personal Info Table -->
+        <div class="col-md-9">
+            <h5 class="text-primary fw-bold border-bottom pb-2 mb-3">개인 기본정보</h5>
+            <table class="table table-bordered align-middle">
+                <colgroup>
+                    <col style="width: 15%; background-color: #f8f9fa;">
+                    <col style="width: 35%;">
+                    <col style="width: 15%; background-color: #f8f9fa;">
+                    <col style="width: 35%;">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <th class="text-center">성명</th>
+                        <td th:text="${resume.realName}"></td>
+                        <th class="text-center">생년월일</th>
+                        <td th:text="${resume.dob}"></td>
+                    </tr>
+                    <tr>
+                        <th class="text-center">연락처</th>
+                        <td th:text="${resume.phoneNumber}"></td>
+                        <th class="text-center">성별</th>
+                        <td th:text="${resume.gender}"></td>
+                    </tr>
+                    <tr>
+                        <th class="text-center">이메일</th>
+                        <td colspan="3" th:text="${resume.email}"></td>
+                    </tr>
+                    <tr>
+                        <th class="text-center">주소</th>
+                        <td colspan="3" th:text="${resume.address}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Experience -->
+    <div class="mb-5">
+        <h5 class="text-primary fw-bold border-bottom pb-2 mb-3">경력사항</h5>
+        <div class="p-3 bg-light border rounded" style="white-space: pre-wrap;" th:text="${resume.experience}"></div>
+    </div>
+
+    <!-- Licenses -->
+    <div class="mb-5">
+        <h5 class="text-primary fw-bold border-bottom pb-2 mb-3">자격취득사항</h5>
+        <div class="p-3 bg-light border rounded" style="white-space: pre-wrap;" th:text="${resume.licenses}"></div>
+    </div>
+
+    <!-- Work Conditions -->
+    <div class="mb-5">
+        <h5 class="text-primary fw-bold border-bottom pb-2 mb-3">희망 근무조건</h5>
+        <table class="table table-bordered text-center align-middle">
+            <thead class="table-primary">
+                <tr>
+                    <th>희망급여</th>
+                    <th>지원업무</th>
+                    <th>근무요일</th>
+                    <th>근무시간</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td th:text="${resume.desiredSalary}"></td>
+                    <td th:text="${resume.desiredJob}"></td>
+                    <td th:text="${resume.workDays}"></td>
+                    <td th:text="${resume.workHours}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Content (Self Intro) -->
+    <div class="mb-5">
+        <h5 class="text-primary fw-bold border-bottom pb-2 mb-3">자기소개서</h5>
+        <div class="card bg-white border-0 shadow-sm">
+            <div class="card-body">
+                <div class="card-title fw-bold fs-4 mb-3" th:text="${resume.subject}"></div>
+                <div class="card-text" style="white-space: pre-wrap;" th:text="${resume.content}"></div>
             </div>
+        </div>
+    </div>
+
+    <!-- Metadata & Actions -->
+    <div class="d-flex justify-content-between align-items-center mb-5 p-3 bg-light rounded">
+        <div>
+            <span class="fw-bold me-2">작성자:</span>
+            <span th:text="${resume.author.username}"></span>
+            <span class="mx-2 text-muted">|</span>
+            <span class="fw-bold me-2">작성일:</span>
+            <span th:text="${#temporals.format(resume.created, 'yyyy-MM-dd HH:mm')}"></span>
+        </div>
+        <div>
+            <a th:href="@{|/resume/modify/${resume.id}|}" class="btn btn-outline-primary me-2"
+                sec:authorize="isAuthenticated()"
+                th:if="${#authentication.getPrincipal().getUsername() == resume.author.username}">수정</a>
+            <a href="javascript:void(0);" th:data-uri="@{|/resume/delete/${resume.id}|}"
+                class="delete btn btn-outline-danger" sec:authorize="isAuthenticated()" th:if="${#authentication.getPrincipal().getUsername()
+                            == resume.author.username}">삭제</a>
         </div>
     </div>
 

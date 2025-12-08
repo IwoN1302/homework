@@ -14,24 +14,124 @@
 
 <body>
     <div class="container my-3">
-        <h2>이력서 등록</h2>
-        <form method="post" th:object="${resumeDto}">
+        <h2 class="text-center my-4 fw-bold">이 력 서</h2>
+        <form method="post" th:object="${resumeDto}" enctype="multipart/form-data">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+            <!-- Personal Info -->
+            <h5 class="text-primary fw-bold mb-3">개인 기본정보</h5>
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="border d-flex align-items-center justify-content-center bg-light"
+                        style="height: 200px; overflow: hidden;">
+                        <img th:if="${resumeDto.profileImage != null}" th:src="@{${resumeDto.profileImage}}"
+                            class="img-fluid" style="max-height: 100%;">
+                        <span th:if="${resumeDto.profileImage == null}" class="text-muted">사진 없음</span>
+                    </div>
+                    <input type="file" th:field="*{profileImageFile}" class="form-control mt-2" accept="image/*">
+                </div>
+                <div class="col-md-9">
+                    <table class="table table-bordered align-middle">
+                        <colgroup>
+                            <col style="width: 15%; background-color: #f8f9fa;">
+                            <col style="width: 35%;">
+                            <col style="width: 15%; background-color: #f8f9fa;">
+                            <col style="width: 35%;">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th class="text-center">성명</th>
+                                <td><input type="text" th:field="*{realName}" class="form-control border-0"
+                                        placeholder="이름"></td>
+                                <th class="text-center">생년월일</th>
+                                <td><input type="text" th:field="*{dob}" class="form-control border-0"
+                                        placeholder="YYYY-MM-DD"></td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">연락처</th>
+                                <td><input type="text" th:field="*{phoneNumber}" class="form-control border-0"
+                                        placeholder="010-0000-0000"></td>
+                                <th class="text-center">성별</th>
+                                <td>
+                                    <select th:field="*{gender}" class="form-select border-0">
+                                        <option value="남">남</option>
+                                        <option value="여">여</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">이메일</th>
+                                <td colspan="3"><input type="email" th:field="*{email}" class="form-control border-0"
+                                        placeholder="email@example.com"></td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">주소</th>
+                                <td colspan="3"><input type="text" th:field="*{address}" class="form-control border-0"
+                                        placeholder="주소 입력"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div th:if="${#fields.hasAnyErrors()}">
+                <div class="alert alert-danger" role="alert" th:each="err : ${#fields.allErrors()}" th:text="${err}">
+                </div>
+            </div>
+
             <div class="mb-3">
                 <label for="subject" class="form-label">제목</label>
-                <input th:field="*{subject}" type="text" class="form-control" id="subject" name="subject"
-                    placeholder="제목을 입력하세요">
-                <p class="filedError" th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}">오류</p>
+                <input th:field="*{subject}" type="text" class="form-control" id="subject" placeholder="이력서 제목을 입력하세요">
             </div>
 
+            <!-- Experience -->
+            <h5 class="text-primary fw-bold mt-4 mb-3">경력사항 (텍스트로 자유롭게 기입)</h5>
             <div class="mb-3">
-                <label for="content" class="form-label">내용</label>
-                <textarea th:field="*{content}" class="form-control" id="content" name="content" rows="10"
-                    placeholder="내용을 입력하세요"></textarea>
-                <p class="filedError" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">오류</p>
+                <textarea th:field="*{experience}" class="form-control" rows="5"
+                    placeholder="예: 2020.01 ~ 2021.01 | OO회사 | 개발팀 대리"></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary">이력서 등록</button>
+            <!-- Licenses -->
+            <h5 class="text-primary fw-bold mt-4 mb-3">자격취득사항 (텍스트로 자유롭게 기입)</h5>
+            <div class="mb-3">
+                <textarea th:field="*{licenses}" class="form-control" rows="3"
+                    placeholder="예: 2019.05 | 정보처리기사 | 한국산업인력공단"></textarea>
+            </div>
+
+            <!-- Work Conditions -->
+            <h5 class="text-primary fw-bold mt-4 mb-3">희망 근무조건</h5>
+            <table class="table table-bordered text-center align-middle bg-light">
+                <thead class="table-primary">
+                    <tr>
+                        <th>희망급여</th>
+                        <th>지원업무</th>
+                        <th>근무요일</th>
+                        <th>근무시간</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" th:field="*{desiredSalary}"
+                                class="form-control text-center bg-white border-0" placeholder="예: 연봉 4000"></td>
+                        <td><input type="text" th:field="*{desiredJob}"
+                                class="form-control text-center bg-white border-0" placeholder="예: 백엔드 개발"></td>
+                        <td><input type="text" th:field="*{workDays}" class="form-control text-center bg-white border-0"
+                                placeholder="예: 월~금"></td>
+                        <td><input type="text" th:field="*{workHours}"
+                                class="form-control text-center bg-white border-0" placeholder="예: 09:00 ~ 18:00"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="mb-3 mt-4">
+                <label for="content" class="form-label fw-bold">자기소개서</label>
+                <textarea th:field="*{content}" class="form-control" id="content" rows="10"
+                    placeholder="자기소개서를 입력하세요"></textarea>
+            </div>
+
+            <div class="d-flex justify-content-end my-4">
+                <button type="submit" class="btn btn-primary btn-lg px-5">저장하기</button>
+            </div>
         </form>
     </div>
 </body>

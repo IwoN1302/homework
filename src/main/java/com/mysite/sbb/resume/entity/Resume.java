@@ -30,7 +30,42 @@ public class Resume extends BaseEntity {
     private String subject; // 이력서 제목
 
     @Column(columnDefinition = "TEXT")
-    private String content; // 이력서 내용
+    private String content; // 이력서 내용 - 자기소개서?
+
+    // Personal Info
+    private String profileImage; // Path to image
+
+    @Column(nullable = false)
+    private String realName;
+
+    @Column(nullable = false)
+    private String dob; // YYYY-MM-DD
+
+    @Column(nullable = false)
+    private String phoneNumber;
+
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String address;
+
+    @Column(nullable = false)
+    private String gender; // "남" or "여"
+
+    // Work Conditions
+    private String desiredSalary;
+    private String desiredJob;
+    private String workDays;
+    private String workHours;
+
+    // Experience & Licenses (Simplified as Text for now, or use @ElementCollection
+    // if needed later)
+    @Column(columnDefinition = "TEXT")
+    private String experience;
+
+    @Column(columnDefinition = "TEXT")
+    private String licenses;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "resume", cascade = CascadeType.ALL) // mappedBy "resume" in Answer
                                                                                        // entity?

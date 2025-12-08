@@ -76,6 +76,20 @@ public class ResumeController {
         ResumeDto resumeDto = new ResumeDto();
         resumeDto.setSubject(resume.getSubject());
         resumeDto.setContent(resume.getContent());
+        resumeDto.setRealName(resume.getRealName());
+        resumeDto.setDob(resume.getDob());
+        resumeDto.setPhoneNumber(resume.getPhoneNumber());
+        resumeDto.setEmail(resume.getEmail());
+        resumeDto.setAddress(resume.getAddress());
+        resumeDto.setGender(resume.getGender());
+        resumeDto.setDesiredSalary(resume.getDesiredSalary());
+        resumeDto.setDesiredJob(resume.getDesiredJob());
+        resumeDto.setWorkDays(resume.getWorkDays());
+        resumeDto.setWorkHours(resume.getWorkHours());
+        resumeDto.setExperience(resume.getExperience());
+        resumeDto.setLicenses(resume.getLicenses());
+        resumeDto.setProfileImage(resume.getProfileImage());
+
         model.addAttribute("resumeDto", resumeDto);
         return "resume/resumeForm";
     }
