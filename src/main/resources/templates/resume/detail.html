@@ -125,6 +125,8 @@
             <div class="d-flex justify-content-end">
                 <div class="badge bg-primary text-light p-2 text-start mx-3">
                     <div class="mb-2">
+                        <span th:if="${answer.author.companyName != null}"
+                            th:text="${answer.author.companyName} + ' - '"></span>
                         <span th:text="${answer.author.username}"></span>
                     </div>
                     <div th:text="${#temporals.format(answer.created, 'yyyy-MM-dd HH:mm')}"></div>

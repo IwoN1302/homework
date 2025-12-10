@@ -14,10 +14,11 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = { "answerList", "author" })
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "job_resume")
 public class Resume extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

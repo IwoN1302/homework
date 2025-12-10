@@ -2,7 +2,9 @@
 # Port & Project Name
 ####################################
 server:
-  port: 8080                    # ?? ??
+  port: 8080
+  tomcat:
+    max-swallow-size: 20MB
   servlet:
     encoding:
       charset: UTF-8
@@ -11,6 +13,11 @@ server:
 spring:
   application:
     name: SBB
+
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
 
   devtools:
     livereload:
