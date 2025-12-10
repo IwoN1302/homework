@@ -23,6 +23,8 @@ public class MemberService {
                 .email(memberDto.getEmail())
                 .gender(memberDto.getGender())
                 .department(memberDto.getDepartment())
+                .userType(memberDto.getUserType())
+                .companyName(memberDto.getCompanyName())
                 .active(memberDto.getActive())
                 .build();
 

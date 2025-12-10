@@ -142,9 +142,8 @@
         </div>
     </div>
 
-    <form class="my-3" th:action="@{|/answer/create/${resume.id}|}" method="post">
-        <textarea sec:authorize="isAnonymous()" disabled class="form-control" name="content" rows="10"></textarea>
-        <textarea sec:authorize="isAuthenticated()" class="form-control" name="content" rows="10"></textarea>
+    <form class="my-3" th:action="@{|/answer/create/${resume.id}|}" method="post" sec:authorize="hasRole('ROLE_SCOUT')">
+        <textarea class="form-control" name="content" rows="10"></textarea>
         <input class="btn btn-primary my-3" type="submit" value="답변 제출">
     </form>
 </div>

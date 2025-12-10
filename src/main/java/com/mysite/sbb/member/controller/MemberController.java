@@ -28,35 +28,47 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response){
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth != null){
+        if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
         return "redirect:/";
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         return "member/login";
     }
 
     @GetMapping("/login/error")
-    public String loginError(Model model){
+    public String loginError(Model model) {
         model.addAttribute("loginError", "아이디 또는 비밀번호가 잘못되었습니다.");
         return "member/login";
     }
 
     @PostMapping("/signup")
     public String signup(@Valid MemberDto memberDto,
-                         BindingResult bindingResult,
-                         Model model) {
+            BindingResult bindingResult,
+            Model model) {
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "member/signup";
         }
 
-        if(!memberDto.getPassword1().equals(memberDto.getPassword2())){
+        if (memberDto.getUserType() == com.mysite.sbb.member.constant.UserType.JOB_SEEKER) {
+            if (memberDto.getDepartment() == null) {
+                bindingResult.rejectValue("department", "required", "학과는 필수 항목 입니다.");
+                return "member/signup";
+            }
+        } else if (memberDto.getUserType() == com.mysite.sbb.member.constant.UserType.SCOUT) {
+            if (memberDto.getCompanyName() == null || memberDto.getCompanyName().trim().isEmpty()) {
+                bindingResult.rejectValue("companyName", "required", "회사명은 필수 항목 입니다.");
+                return "member/signup";
+            }
+        }
+
+        if (!memberDto.getPassword1().equals(memberDto.getPassword2())) {
             bindingResult.rejectValue("password2", "PasswordInCorrect",
                     "2개의 패스워드가 일치하지 않습니다.");
             return "member/signup";
@@ -64,7 +76,7 @@ public class MemberController {
 
         try {
             memberService.create(memberDto);
-        } catch (DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             log.info("===== 회원 등록 실패: 이미 등록된 사용자 입니다.");
             model.addAttribute("errorMsg", "이미 등록된 사용자 입니다.");
             return "member/signup";

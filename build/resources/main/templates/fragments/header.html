@@ -15,7 +15,8 @@
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/resume/list">나의 이력서</a>
+                        <a class="nav-link" href="/resume/list" sec:authorize="hasRole('ROLE_SCOUT')">이력서 탐색</a>
+                        <a class="nav-link" href="/resume/list" sec:authorize="!hasRole('ROLE_SCOUT')">나의 이력서</a>
                     </li>
 
                     <li class="nav-item" sec:authorize="isAnonymous()">

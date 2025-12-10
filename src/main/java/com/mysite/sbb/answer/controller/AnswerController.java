@@ -82,7 +82,7 @@ public class AnswerController {
         return "answer/inputForm";
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() and hasRole('ROLE_SCOUT')")
     @PostMapping("/create/{id}")
     public String create(@PathVariable("id") Long id,
             @RequestParam("content") String content,

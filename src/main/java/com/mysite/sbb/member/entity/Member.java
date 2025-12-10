@@ -3,6 +3,7 @@ package com.mysite.sbb.member.entity;
 import com.mysite.sbb.audit.BaseTimeEntity;
 import com.mysite.sbb.member.constant.Department;
 import com.mysite.sbb.member.constant.Gender;
+import com.mysite.sbb.member.constant.UserType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -38,8 +39,15 @@ public class Member extends BaseTimeEntity {
     private Gender gender; // 성별
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 30)
+    @Column(length = 30)
     private Department department; // 학과
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private UserType userType; // 회원 유형
+
+    @Column(length = 100)
+    private String companyName; // 회사명 (기업회원일 경우)
 
     @Column(nullable = false)
     private Boolean active; // 등록 여부

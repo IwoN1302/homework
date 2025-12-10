@@ -2,6 +2,7 @@ package com.mysite.sbb.member.dto;
 
 import com.mysite.sbb.member.constant.Department;
 import com.mysite.sbb.member.constant.Gender;
+import com.mysite.sbb.member.constant.UserType;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -30,8 +31,12 @@ public class MemberDto {
     @NotNull(message = "성별은 필수 항목 입니다.")
     private Gender gender; // 성별
 
-    @NotNull(message = "학과는 필수 항목 입니다.")
     private Department department; // 학과
+
+    @NotNull(message = "회원 유형은 필수 항목 입니다.")
+    private UserType userType; // 회원 유형
+
+    private String companyName; // 회사명
 
     @AssertTrue(message = "동의(이용) 확인 체크해야 가입할 수 있습니다.")
     private Boolean active; // 등록 여부

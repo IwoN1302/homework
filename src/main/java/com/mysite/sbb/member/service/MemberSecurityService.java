@@ -2,6 +2,7 @@ package com.mysite.sbb.member.service;
 
 import com.mysite.sbb.member.entity.Member;
 import com.mysite.sbb.member.repository.MemberRepository;
+import com.mysite.sbb.member.constant.UserType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,8 +28,10 @@ public class MemberSecurityService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("해당 사용자가 존재하지 않습니다."));
 
         List<GrantedAuthority> authList = new ArrayList<>();
-        if("admin".equals(username)){
+        if ("admin".equals(username)) {
             authList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        } else if (member.getUserType() == com.mysite.sbb.member.constant.UserType.SCOUT) {
+            authList.add(new SimpleGrantedAuthority("ROLE_SCOUT"));
         } else {
             authList.add(new SimpleGrantedAuthority("ROLE_USER"));
         }

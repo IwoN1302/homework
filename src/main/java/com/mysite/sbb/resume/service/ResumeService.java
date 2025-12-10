@@ -33,6 +33,13 @@ public class ResumeService {
         return resumeRepository.findByAuthor(author, pageable);
     }
 
+    public Page<Resume> getAllResumeList(int page) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("created"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+        return resumeRepository.findAll(pageable);
+    }
+
     public Resume getResume(Long id) {
         return resumeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("해당 이력서 X"));

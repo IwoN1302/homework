@@ -109,7 +109,12 @@ public class ResumeController {
     public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
             Principal principal) {
         Member member = memberService.getMember(principal.getName());
-        Page<Resume> paging = resumeService.getResumeList(page, member);
+        Page<Resume> paging;
+        if (member.getUserType() == com.mysite.sbb.member.constant.UserType.SCOUT) {
+            paging = resumeService.getAllResumeList(page);
+        } else {
+            paging = resumeService.getResumeList(page, member);
+        }
         System.out.println("=== paging : " + paging);
         model.addAttribute("paging", paging);
         return "resume/list";
