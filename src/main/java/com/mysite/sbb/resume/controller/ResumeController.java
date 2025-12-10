@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -84,8 +86,17 @@ public class ResumeController {
         resumeDto.setGender(resume.getGender());
         resumeDto.setDesiredSalary(resume.getDesiredSalary());
         resumeDto.setDesiredJob(resume.getDesiredJob());
-        resumeDto.setWorkDays(resume.getWorkDays());
-        resumeDto.setWorkHours(resume.getWorkHours());
+        if (resume.getWorkDays() != null) {
+            resumeDto.setWorkDays(Arrays.asList(resume.getWorkDays().split(",")));
+        }
+
+        if (resume.getWorkHours() != null && resume.getWorkHours().contains("~")) {
+            String[] times = resume.getWorkHours().split("~");
+            if (times.length > 0)
+                resumeDto.setWorkStartTime(times[0]);
+            if (times.length > 1)
+                resumeDto.setWorkEndTime(times[1]);
+        }
         resumeDto.setExperience(resume.getExperience());
         resumeDto.setLicenses(resume.getLicenses());
         resumeDto.setProfileImage(resume.getProfileImage());
@@ -95,9 +106,10 @@ public class ResumeController {
     }
 
     @GetMapping("/list")
-    public String list(Model model,
-            @RequestParam(value = "page", defaultValue = "0") int page) {
-        Page<Resume> paging = resumeService.getResumeList(page);
+    public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+            Principal principal) {
+        Member member = memberService.getMember(principal.getName());
+        Page<Resume> paging = resumeService.getResumeList(page, member);
         System.out.println("=== paging : " + paging);
         model.addAttribute("paging", paging);
         return "resume/list";
@@ -111,6 +123,7 @@ public class ResumeController {
         return "resume/detail";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String createForm(Model model) {
         model.addAttribute("resumeDto", new ResumeDto()); // Changed "questionDto" to "resumeDto"

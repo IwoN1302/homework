@@ -26,11 +26,11 @@ public class ResumeService {
 
     private final ResumeRepository resumeRepository;
 
-    public Page<Resume> getResumeList(int page) {
+    public Page<Resume> getResumeList(int page, Member author) {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("created"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-        return resumeRepository.findAll(pageable);
+        return resumeRepository.findByAuthor(author, pageable);
     }
 
     public Resume getResume(Long id) {
@@ -52,8 +52,9 @@ public class ResumeService {
                 .gender(resumeDto.getGender())
                 .desiredSalary(resumeDto.getDesiredSalary())
                 .desiredJob(resumeDto.getDesiredJob())
-                .workDays(resumeDto.getWorkDays())
-                .workHours(resumeDto.getWorkHours())
+                .workDays(
+                        String.join(",", resumeDto.getWorkDays() != null ? resumeDto.getWorkDays() : new ArrayList<>()))
+                .workHours(resumeDto.getWorkStartTime() + "~" + resumeDto.getWorkEndTime())
                 .experience(resumeDto.getExperience())
                 .licenses(resumeDto.getLicenses())
                 .profileImage(profileImage)
@@ -100,8 +101,12 @@ public class ResumeService {
         resume.setGender(resumeDto.getGender());
         resume.setDesiredSalary(resumeDto.getDesiredSalary());
         resume.setDesiredJob(resumeDto.getDesiredJob());
-        resume.setWorkDays(resumeDto.getWorkDays());
-        resume.setWorkHours(resumeDto.getWorkHours());
+        if (resumeDto.getWorkDays() != null) {
+            resume.setWorkDays(String.join(",", resumeDto.getWorkDays()));
+        } else {
+            resume.setWorkDays("");
+        }
+        resume.setWorkHours(resumeDto.getWorkStartTime() + "~" + resumeDto.getWorkEndTime());
         resume.setExperience(resumeDto.getExperience());
         resume.setLicenses(resumeDto.getLicenses());
 

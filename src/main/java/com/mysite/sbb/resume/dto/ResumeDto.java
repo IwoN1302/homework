@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 
 @Getter
 @Setter
@@ -43,8 +44,10 @@ public class ResumeDto {
     // Work Conditions
     private String desiredSalary;
     private String desiredJob;
-    private String workDays;
-    private String workHours;
+    private List<String> workDays;
+
+    private String workStartTime;
+    private String workEndTime;
 
     private String experience;
     private String licenses;

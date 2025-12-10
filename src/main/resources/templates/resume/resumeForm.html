@@ -103,7 +103,7 @@
             <table class="table table-bordered text-center align-middle bg-light">
                 <thead class="table-primary">
                     <tr>
-                        <th>희망급여</th>
+                        <th>희망급여(연봉)</th>
                         <th>지원업무</th>
                         <th>근무요일</th>
                         <th>근무시간</th>
@@ -111,14 +111,64 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><input type="text" th:field="*{desiredSalary}"
-                                class="form-control text-center bg-white border-0" placeholder="예: 연봉 4000"></td>
+                        <td>
+                            <div class="input-group">
+                                <input type="number" th:field="*{desiredSalary}"
+                                    class="form-control text-center bg-white border-0" placeholder="숫자만 기입">
+                                <span class="input-group-text bg-white border-0">만원</span>
+                            </div>
+                            <small class="text-muted d-block mt-1">만원 단위 입력 (예: 5000)</small>
+                        </td>
                         <td><input type="text" th:field="*{desiredJob}"
                                 class="form-control text-center bg-white border-0" placeholder="예: 백엔드 개발"></td>
-                        <td><input type="text" th:field="*{workDays}" class="form-control text-center bg-white border-0"
-                                placeholder="예: 월~금"></td>
-                        <td><input type="text" th:field="*{workHours}"
-                                class="form-control text-center bg-white border-0" placeholder="예: 09:00 ~ 18:00"></td>
+                        <td>
+                            <div class="d-flex justify-content-center flex-wrap gap-2">
+                                <div class="form-check form-check-inline m-0">
+                                    <input class="form-check-input" type="checkbox" th:field="*{workDays}" value="월"
+                                        id="mon">
+                                    <label class="form-check-label" for="mon">월</label>
+                                </div>
+                                <div class="form-check form-check-inline m-0">
+                                    <input class="form-check-input" type="checkbox" th:field="*{workDays}" value="화"
+                                        id="tue">
+                                    <label class="form-check-label" for="tue">화</label>
+                                </div>
+                                <div class="form-check form-check-inline m-0">
+                                    <input class="form-check-input" type="checkbox" th:field="*{workDays}" value="수"
+                                        id="wed">
+                                    <label class="form-check-label" for="wed">수</label>
+                                </div>
+                                <div class="form-check form-check-inline m-0">
+                                    <input class="form-check-input" type="checkbox" th:field="*{workDays}" value="목"
+                                        id="thu">
+                                    <label class="form-check-label" for="thu">목</label>
+                                </div>
+                                <div class="form-check form-check-inline m-0">
+                                    <input class="form-check-input" type="checkbox" th:field="*{workDays}" value="금"
+                                        id="fri">
+                                    <label class="form-check-label" for="fri">금</label>
+                                </div>
+                                <div class="form-check form-check-inline m-0">
+                                    <input class="form-check-input" type="checkbox" th:field="*{workDays}" value="토"
+                                        id="sat">
+                                    <label class="form-check-label" for="sat">토</label>
+                                </div>
+                                <div class="form-check form-check-inline m-0">
+                                    <input class="form-check-input" type="checkbox" th:field="*{workDays}" value="일"
+                                        id="sun">
+                                    <label class="form-check-label" for="sun">일</label>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center gap-2">
+                                <input type="time" th:field="*{workStartTime}"
+                                    class="form-control bg-white border-0 text-center" style="max-width: 150px;">
+                                <span>~</span>
+                                <input type="time" th:field="*{workEndTime}"
+                                    class="form-control bg-white border-0 text-center" style="max-width: 150px;">
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
